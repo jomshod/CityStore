@@ -1,0 +1,30 @@
+
+{  "_comment": "This is a json file from citystore project",
+  "project_info": {
+    "project_number": "871853069527",
+    "project_id": "citystore-635b5",
+    "storage_bucket": "citystore-635b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871853069527:android:11f1a8e22b8b5814cbcc92",
+        "android_client_info": {
+          "package_name": "com.jimmy.citystore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF00PS96GGkyO1HQah4_0xOxcmY9lbTJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
