@@ -27,9 +27,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.jimmy.citystore.screens.generalStoreScreen.Item
 
 @Composable
-fun ItemCard(item: com.jimmy.citystore.screens.generalStoreScreen.Item, onItemClick: (com.jimmy.citystore.screens.generalStoreScreen.Item) -> Unit) {
+fun ItemCard(item:Item, onItemClick: (Item) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -68,7 +69,7 @@ fun ItemCard(item: com.jimmy.citystore.screens.generalStoreScreen.Item, onItemCl
 }
 
 @Composable
-fun PriceRow(item: com.jimmy.citystore.screens.generalStoreScreen.Item) {
+fun PriceRow(item: Item) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
