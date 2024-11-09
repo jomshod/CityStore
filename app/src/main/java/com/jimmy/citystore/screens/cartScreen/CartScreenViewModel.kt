@@ -1,7 +1,7 @@
 package com.jimmy.citystore.screens.cartScreen
 
 import androidx.lifecycle.ViewModel
-import com.jimmy.citystore.screens.homescreen.Item
+import com.jimmy.citystore.screens.generalStoreScreen.Item
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

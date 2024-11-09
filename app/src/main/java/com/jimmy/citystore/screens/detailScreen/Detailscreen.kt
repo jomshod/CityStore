@@ -48,14 +48,14 @@ import coil.compose.AsyncImage
 import com.jimmy.citystore.CutPrice
 import com.jimmy.citystore.navigation.AppScreens
 import com.jimmy.citystore.screens.cartScreen.CartScreenViewModel
-import com.jimmy.citystore.screens.homescreen.HomeViewModel
-import com.jimmy.citystore.screens.homescreen.Item
+import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
+import com.jimmy.citystore.screens.generalStoreScreen.Item
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(
     item: Item,
-    vm: HomeViewModel,
+    vm: GeneralStoreViewModel,
     navController: NavController,
     cvm: CartScreenViewModel,
 ) {
@@ -164,7 +164,7 @@ fun DetailScreenTopAppBar(
     modifier: Modifier = Modifier,
     onCartClick: () -> Unit,
     title: String,
-    vm: HomeViewModel
+    vm: GeneralStoreViewModel
 ) {
     TopAppBar(
         title = {
@@ -186,7 +186,7 @@ fun DetailScreenTopAppBar(
 }
 
 @Composable
-fun CartIcon(onCartClick: () -> Unit, vm: HomeViewModel) {
+fun CartIcon(onCartClick: () -> Unit, vm: GeneralStoreViewModel) {
     val homeUiState by vm.homeUiState.collectAsState()
     Row(modifier = Modifier.clickable(onClick = onCartClick)) {
         Icon(

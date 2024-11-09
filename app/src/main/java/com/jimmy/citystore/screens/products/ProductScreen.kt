@@ -7,13 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.jimmy.citystore.screens.homescreen.HomeUiState
-import com.jimmy.citystore.screens.homescreen.HomeViewModel
-import com.jimmy.citystore.screens.homescreen.Product
+import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreUiState
+import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
+import com.jimmy.citystore.screens.generalStoreScreen.Product
 
 @Composable
-fun ProductScreen(modifier: Modifier = Modifier, vm: HomeViewModel,navController: NavController,homeUiState: HomeUiState) {
-    ProductItemList(products = homeUiState.products)
+fun ProductScreen(modifier: Modifier = Modifier, vm: GeneralStoreViewModel,navController: NavController,generalStoreUiState: GeneralStoreUiState) {
+    ProductItemList(products = generalStoreUiState.products)
 }
 
 @Composable

@@ -35,15 +35,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.jimmy.citystore.screens.homescreen.HomeViewModel
-import com.jimmy.citystore.screens.homescreen.Item
+import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
+import com.jimmy.citystore.screens.generalStoreScreen.Item
 
 
 @Composable
 fun CartScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    vm: HomeViewModel,
+    vm: GeneralStoreViewModel,
     cvm: CartScreenViewModel,
     cartUiState: CartUiState
 ) {
