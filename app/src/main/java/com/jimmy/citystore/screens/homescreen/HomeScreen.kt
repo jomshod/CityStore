@@ -61,7 +61,7 @@ fun StoreList(
 
     ) {
     LazyColumn(modifier = Modifier) {
-        items(cityStores) { it ->
+        items(stores) { it ->
             StoreCard(modifier = Modifier, navController, store = it)
 
         }

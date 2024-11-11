@@ -16,6 +16,7 @@ import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreScreen
 import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
 import com.jimmy.citystore.screens.homeScreen.HomeScreen
 import com.jimmy.citystore.screens.products.ProductScreen
+import com.jimmy.citystore.splash.SplashScreen
 
 @Composable
 fun AppNavigation() {
@@ -24,7 +25,8 @@ fun AppNavigation() {
     val cvm: CartScreenViewModel = viewModel()
     val generalStoreUiState by vm.homeUiState.collectAsState()
     val cartUiState by cvm.cartUiState.collectAsState()
-    NavHost(navController = navController, startDestination = AppScreens.Home.route) {
+    NavHost(navController = navController, startDestination = AppScreens.Splash.route) {
+        composable(AppScreens.Splash.route) { SplashScreen(navController = navController) }
         composable(AppScreens.Home.route) { HomeScreen(navController = navController) }
         composable(AppScreens.GeneralStore.route) {GeneralStoreScreen(navController = navController, vm = vm, generalStoreUiState = generalStoreUiState) }
         composable(AppScreens.Cart.route) { CartScreen(navController = navController, vm = vm, cvm = cvm, cartUiState = cartUiState) }
@@ -34,11 +36,8 @@ fun AppNavigation() {
     }
 }
 
-
-
-//GeneralStoreScreen(navController = navController, vm = vm, generalStoreUiState = generalStoreUiState)
 sealed class AppScreens(val route: String) {
-    data object Test : AppScreens("test")
+    data object Splash : AppScreens("splash")
     data object Home : AppScreens("home")
     data object GeneralStore: AppScreens("generalStore")
     data object Cart : AppScreens("cart")
