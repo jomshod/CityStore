@@ -1,12 +1,16 @@
 package com.jimmy.citystore.screens.homeScreen
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -14,28 +18,32 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.jimmy.citystore.R
 import com.jimmy.citystore.navigation.AppScreens
 import com.jimmy.citystore.ui.theme.CityStoreTheme
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
-    Scaffold(topBar = { HomeTopBar() }) { paddingValues ->
+    Scaffold(
+        topBar = { HomeTopBar() },
+        containerColor = MaterialTheme.colorScheme.primary
+    ) { paddingValues ->
         Column(
             modifier = modifier
-                .padding(horizontal = 16.dp, vertical = 10.dp)
-                .background(MaterialTheme.colorScheme.background), // Padding around StoreCard
-            verticalArrangement = Arrangement.spacedBy(16.dp) // Space between TopAppBar and StoreCard
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
-            StoreCard(
+            StoreList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues),
@@ -45,17 +53,62 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     }
 }
 
+@Composable
+fun StoreList(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    stores: List<Store> = cityStores,
+
+    ) {
+    LazyColumn(modifier = Modifier) {
+        items(cityStores) { it ->
+            StoreCard(modifier = Modifier, navController, store = it)
+
+        }
+    }
+}
 
 @Composable
-fun StoreCard(modifier: Modifier, navController: NavController) {
+fun StoreCard(
+    modifier: Modifier,
+    navController: NavController,
+    store: Store = Store(
+        "Kids Store",
+        "You can buy Child clothes here",
+        R.drawable.kids_mart
+    )
+) {
     Card(
         modifier = modifier
             .clickable { navController.navigate(AppScreens.GeneralStore.route) }
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(10.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
+        elevation = CardDefaults.cardElevation(2.dp)
+
     ) {
-        Text("GeneralStore", modifier = Modifier.align(Alignment.CenterHorizontally))
-        Text("GeneralStore")
-        Text("GeneralStore")
+        Row {
+            Image(
+                painter = painterResource(id = store.image),
+                contentDescription = "General Store",
+                modifier = Modifier.size(130.dp)
+            )
+            Column {
+                Text(
+                    store.name,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily),
+                    fontSize = 24.sp
+                )
+                Text(store.description,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer)
+                )
+            }
+        }
     }
 }
 
@@ -66,19 +119,19 @@ fun HomeTopBar() {
         title = {
 
             Text(
-                "CityStore",
+                "City Store",
                 modifier = Modifier
                     .fillMaxWidth(),
                 style = TextStyle(
                     textAlign = TextAlign.Center,
                     fontSize = 36.sp,
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontFamily = MaterialTheme.typography.displayMedium.fontFamily
+                    fontFamily = MaterialTheme.typography.displaySmall.fontFamily,
+                    fontWeight = FontWeight.ExtraBold
                 )
             )
 
         },
-        modifier = Modifier,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
 }

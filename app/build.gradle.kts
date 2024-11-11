@@ -56,6 +56,7 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.ui.text.google.fonts)
     val nav_version = "2.8.0"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
