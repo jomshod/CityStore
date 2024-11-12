@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,8 +21,10 @@ import com.jimmy.citystore.splash.SplashScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val vm: GeneralStoreViewModel = viewModel()
-    val cvm: CartScreenViewModel = viewModel()
+    val vm = hiltViewModel<GeneralStoreViewModel>()
+    val cvm = hiltViewModel<CartScreenViewModel>()
+//    val vm: GeneralStoreViewModel = viewModel()
+//    val cvm: CartScreenViewModel = viewModel()
     val generalStoreUiState by vm.homeUiState.collectAsState()
     val cartUiState by cvm.cartUiState.collectAsState()
     NavHost(navController = navController, startDestination = AppScreens.Splash.route) {
@@ -35,6 +37,8 @@ fun AppNavigation() {
 
     }
 }
+
+
 
 sealed class AppScreens(val route: String) {
     data object Splash : AppScreens("splash")

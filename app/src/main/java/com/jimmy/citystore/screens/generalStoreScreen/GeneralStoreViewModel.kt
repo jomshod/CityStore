@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class GeneralStoreViewModel : ViewModel() {
+@HiltViewModel
+class GeneralStoreViewModel @Inject constructor() : ViewModel() {
 
     private val _generalStoreUiState = MutableStateFlow(GeneralStoreUiState())
     val homeUiState = _generalStoreUiState.asStateFlow()
