@@ -1,4 +1,4 @@
-package com.jimmy.citystore.screens.homeScreen
+package com.jimmy.citystore.screens.homescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,22 +18,29 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.jimmy.citystore.R
 import com.jimmy.citystore.navigation.AppScreens
-import com.jimmy.citystore.ui.theme.CityStoreTheme
-
+import com.jimmy.citystore.screens.homeScreen.Store
+import com.jimmy.citystore.screens.homeScreen.cityStores
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    hvm: HomeViewModel,
+    homeUiState: HomeUiState
+) {
+    // Observe the route state
+    val route = homeUiState.route
+
     Scaffold(
         topBar = { HomeTopBar() },
         containerColor = MaterialTheme.colorScheme.primary
@@ -47,22 +54,33 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues),
-                navController
+                onStoreClick = { it ->
+                    hvm.updateRoute(it)
+                }
             )
+        }
+    }
+
+    // Trigger navigation only when the route is updated
+    LaunchedEffect(route) {
+        if (route.isNotEmpty()) { // Check that route is not empty
+            navController.navigate(route)
+            hvm.resetHome()
         }
     }
 }
 
+
 @Composable
 fun StoreList(
     modifier: Modifier = Modifier,
-    navController: NavController,
+    onStoreClick: (String) -> Unit,
     stores: List<Store> = cityStores,
 
     ) {
     LazyColumn(modifier = Modifier) {
         items(stores) { it ->
-            StoreCard(modifier = Modifier, navController, store = it)
+            StoreCard(modifier = Modifier, { onStoreClick(it.route) }, store = it)
 
         }
     }
@@ -71,7 +89,7 @@ fun StoreList(
 @Composable
 fun StoreCard(
     modifier: Modifier,
-    navController: NavController,
+   onStoreClick:()-> Unit,
     store: Store = Store(
         "Kids Store",
         "You can buy Child clothes here",
@@ -80,7 +98,7 @@ fun StoreCard(
 ) {
     Card(
         modifier = modifier
-            .clickable { navController.navigate(AppScreens.GeneralStore.route) }
+            .clickable { onStoreClick() }
             .fillMaxWidth()
             .padding(10.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
@@ -136,10 +154,3 @@ fun HomeTopBar() {
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun HomeScreenPreview() {
-    CityStoreTheme {
-        HomeScreen(navController = rememberNavController())
-    }
-}

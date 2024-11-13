@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GeneralStoreViewModel @Inject constructor() : ViewModel() {
 
     private val _generalStoreUiState = MutableStateFlow(GeneralStoreUiState())
-    val homeUiState = _generalStoreUiState.asStateFlow()
+    val generalStoreUiState = _generalStoreUiState.asStateFlow()
 
     private var allItems: List<Item> = emptyList() // Store all items fetched from Firestore
     private var allProducts: List<Product> = emptyList()

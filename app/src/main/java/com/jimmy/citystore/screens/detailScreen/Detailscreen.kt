@@ -59,7 +59,7 @@ fun DetailScreen(
     navController: NavController,
     cvm: CartScreenViewModel,
 ) {
-    val homeUiState by vm.homeUiState.collectAsState()
+    val generalStoreUiState by vm.generalStoreUiState.collectAsState()
     val pagerState = rememberPagerState(pageCount = { item.photos.size })
     val photoKeys = item.photos.keys.toList()
 
@@ -140,7 +140,7 @@ fun DetailScreen(
             )
             Button(
                 onClick = {
-                    homeUiState.item.totalCartItems++
+                    generalStoreUiState.item.totalCartItems++
                     cvm.AddInCart(item)
                     vm.resetHomeScreen()
                     navController.navigate(AppScreens.Home.route)
@@ -187,7 +187,7 @@ fun DetailScreenTopAppBar(
 
 @Composable
 fun CartIcon(onCartClick: () -> Unit, vm: GeneralStoreViewModel) {
-    val homeUiState by vm.homeUiState.collectAsState()
+    val homeUiState by vm.generalStoreUiState.collectAsState()
     Row(modifier = Modifier.clickable(onClick = onCartClick)) {
         Icon(
             imageVector = Icons.Default.ShoppingCart,
