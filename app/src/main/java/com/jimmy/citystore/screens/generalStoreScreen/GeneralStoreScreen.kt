@@ -32,7 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jimmy.citystore.ItemCard
 import com.jimmy.citystore.navigation.AppScreens
-import com.jimmy.citystore.screens.detailScreen.CartIcon
+import com.jimmy.citystore.screens.homescreen.CartIcon
+import com.jimmy.citystore.screens.homescreen.MoreIcon
 
 @Composable
 fun GeneralStoreScreen(
@@ -56,11 +57,13 @@ fun GeneralStoreScreen(
         topBar = {
             if (isTopBarVisible) {
                 CityStoreTopAppBar(
-                    onCartClick = { navController.navigate(AppScreens.Cart.route) },
-                    title = "City Store", vm = vm,navController=navController
+//                    onCartClick = { navController.navigate(AppScreens.Cart.route) },
+                    title = "City Store",
+//                    vm = vm,navController=navController
                 )
             }
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
 
@@ -121,11 +124,7 @@ fun  GeneralStoreContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityStoreTopAppBar(
-    modifier: Modifier = Modifier,
-    onCartClick: () -> Unit,
     title: String,
-    vm: GeneralStoreViewModel,
-    navController: NavController
 ) {
     TopAppBar(
         title = {
@@ -137,27 +136,11 @@ fun CityStoreTopAppBar(
                 color = MaterialTheme.colorScheme.onPrimary,
             )
         },
-        actions = {
-            CartIcon(onCartClick = { navController.navigate(AppScreens.Cart.route)}, vm = vm)
-            Spacer(modifier = Modifier)
-            MoreIcon {}
-        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
         )
     )
 }
 
-@Composable
-fun MoreIcon(onMoreClick: () -> Unit) {
-    Row(modifier = Modifier.clickable(onClick = onMoreClick)) {
-        Icon(
-            imageVector = Icons.Default.MoreVert,
-            contentDescription = "Cart",
-            tint = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.size(30.dp)
-        )
 
-    }
-}
 

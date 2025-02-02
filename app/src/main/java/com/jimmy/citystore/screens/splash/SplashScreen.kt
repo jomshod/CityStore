@@ -1,4 +1,4 @@
-package com.jimmy.citystore.splash
+package com.jimmy.citystore.screens.splash
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

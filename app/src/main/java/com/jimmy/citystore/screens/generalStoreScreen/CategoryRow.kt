@@ -33,7 +33,7 @@ fun CategoryRow(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary else Color.Gray
                 ),
                 modifier = Modifier
                     .clickable { onAllClick() }
@@ -62,7 +62,7 @@ fun CategoryItem(
         style = TextStyle(
             fontWeight = FontWeight.Bold,
             fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
+            color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier
             .clickable { onCategorySelected(category) }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.jimmy.citystore.navigation.AppScreens
 import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
 import com.jimmy.citystore.screens.generalStoreScreen.Item
 
@@ -49,16 +51,20 @@ fun CartScreen(
 ) {
 
 
-    CartContent(items = cartUiState.cartItems)
+    CartContent(
+        items = cartUiState.cartItems,
+        onCheckOutClick = { navController.navigate(AppScreens.CheckOutScreen.route) })
 }
 
 @Composable
-fun CartContent(modifier: Modifier = Modifier, items: List<Item>,
-              ) {
+fun CartContent(
+    modifier: Modifier = Modifier, items: List<Item>, onCheckOutClick: () -> Unit
+) {
     Scaffold(topBar = { CartAppBar() }) {
         CartITemList(
             items = items,
-            modifier = modifier.padding(it)
+            modifier = modifier.padding(it),
+            onCheckOutClick = onCheckOutClick
         )
     }
 }
@@ -86,11 +92,21 @@ private fun CartAppBar() {
 fun CartITemList(
     modifier: Modifier = Modifier,
     items: List<Item>,
+    onCheckOutClick: () -> Unit
 ) {
 
     Column(modifier = modifier.fillMaxSize()) {
         LazyColumn() {
-            items(items) { it -> CartItemCard(it, { }, {  }) }
+            items(items) { it -> CartItemCard(it, { }, { }) }
+            item {
+                Button(
+                    onClick = { onCheckOutClick() },
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) { Text("Check Out") }
+            }
         }
     }
 
@@ -137,7 +153,10 @@ fun CartItemCard(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.weight(1f)
                 ) {
-                    FilledIconButton(onClick = { onAddClick(item) }, shape = RoundedCornerShape(8.dp)) {
+                    FilledIconButton(
+                        onClick = { onAddClick(item) },
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add one more ${item.name}"
@@ -161,7 +180,10 @@ fun CartItemCard(
 
 
 
-                    FilledIconButton(onClick = { onRemoveClick(item) }, shape = RoundedCornerShape(8.dp)) {
+                    FilledIconButton(
+                        onClick = { onRemoveClick(item) },
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Remove,
                             contentDescription = "Remove one from ${item.name}"

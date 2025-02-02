@@ -1,4 +1,4 @@
-package com.jimmy.citystore.elctronics
+package com.jimmy.citystore.screens.elctronics
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

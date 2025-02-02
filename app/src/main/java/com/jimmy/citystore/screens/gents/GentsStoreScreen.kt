@@ -1,4 +1,4 @@
-package com.jimmy.citystore.ladies
+package com.jimmy.citystore.screens.gents
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LadiesStoreScreen(modifier: Modifier = Modifier) {
+fun GentsStoreScreen(modifier: Modifier = Modifier) {
     Scaffold {
         Column(modifier = modifier.padding(it)) {
-            Text(text = "Ladies Store")
+            Text(text = "Gents Store")
             Text("Contact Us To Take this Store")
         }
     }

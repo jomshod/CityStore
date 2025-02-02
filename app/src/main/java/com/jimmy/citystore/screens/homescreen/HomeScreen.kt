@@ -2,15 +2,19 @@ package com.jimmy.citystore.screens.homescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -19,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -29,67 +34,85 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.jimmy.citystore.R
 import com.jimmy.citystore.navigation.AppScreens
+import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
 import com.jimmy.citystore.screens.homeScreen.Store
 import com.jimmy.citystore.screens.homeScreen.cityStores
+import kotlinx.coroutines.delay
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     hvm: HomeViewModel,
-    homeUiState: HomeUiState
+    homeUiState: HomeUiState,
+    vm:GeneralStoreViewModel
 ) {
-    // Observe the route state
-    val route = homeUiState.route
-
     Scaffold(
-        topBar = { HomeTopBar() },
+        topBar = {
+            HomeTopBar(
+            navController = navController,
+            vm = vm
+        ) },
         containerColor = MaterialTheme.colorScheme.primary
     ) { paddingValues ->
-        Column(
+        StoreList(
             modifier = modifier
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp, vertical = 16.dp)
-        ) {
-            StoreList(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues),
-                onStoreClick = { it ->
-                    hvm.updateRoute(it)
-                }
-            )
-        }
+                .fillMaxWidth()
+                .padding(paddingValues),
+            navController = navController,
+            hvm = hvm,
+            homeUiState = homeUiState
+        )
     }
 
-    // Trigger navigation only when the route is updated
-    LaunchedEffect(route) {
-        if (route.isNotEmpty()) { // Check that route is not empty
-            navController.navigate(route)
-            hvm.resetHome()
-        }
-    }
+
 }
 
 
 @Composable
 fun StoreList(
     modifier: Modifier = Modifier,
-    onStoreClick: (String) -> Unit,
     stores: List<Store> = cityStores,
+    navController: NavController,
+    hvm: HomeViewModel,
+    homeUiState: HomeUiState
 
-    ) {
-    LazyColumn(modifier = Modifier) {
-        items(stores) { it ->
-            StoreCard(modifier = Modifier, { onStoreClick(it.route) }, store = it)
+) {
+    Box {
+        LazyColumn(modifier = modifier) {
+            items(stores) {
+                StoreCard(
+                    modifier = Modifier,
+                    onStoreClick = { hvm.updateRoute(it.route) },
+                    store = it
+                )
+
+            }
+        }
+        if (homeUiState.isNavigating) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp).align(Alignment.Center),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                trackColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
+    }
+    // LaunchedEffect to handle the delay and navigation
+    LaunchedEffect(homeUiState.route, homeUiState.isNavigating) {
+        if (homeUiState.isNavigating && homeUiState.route.isNotEmpty()) { // Ensure the route is set and loading is active
+            delay(1500L) // Delay for 1 second
+            navController.navigate(homeUiState.route) // Navigate to the route
+            hvm.resetHome()
 
         }
     }
+
 }
 
 @Composable
 fun StoreCard(
     modifier: Modifier,
-   onStoreClick:()-> Unit,
+    onStoreClick: () -> Unit,
     store: Store = Store(
         "Kids Store",
         "You can buy Child clothes here",
@@ -115,15 +138,18 @@ fun StoreCard(
                 Text(
                     store.name,
                     style = TextStyle(
-                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily),
+                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily
+                    ),
                     fontSize = 24.sp
                 )
-                Text(store.description,
+                Text(
+                    store.description,
                     style = TextStyle(
                         fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer)
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
             }
         }
@@ -132,7 +158,7 @@ fun StoreCard(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(navController: NavController,vm:GeneralStoreViewModel) {
     TopAppBar(
         title = {
 
@@ -149,6 +175,11 @@ fun HomeTopBar() {
                 )
             )
 
+        },
+        actions = {
+            CartIcon(onCartClick = { navController.navigate(AppScreens.Cart.route)}, vm = vm)
+            Spacer(modifier = Modifier)
+            MoreIcon {}
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )

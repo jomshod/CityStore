@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,6 +51,7 @@ import com.jimmy.citystore.navigation.AppScreens
 import com.jimmy.citystore.screens.cartScreen.CartScreenViewModel
 import com.jimmy.citystore.screens.generalStoreScreen.GeneralStoreViewModel
 import com.jimmy.citystore.screens.generalStoreScreen.Item
+import com.jimmy.citystore.screens.homescreen.CartIcon
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +71,7 @@ fun DetailScreen(
             title = "Details",
             vm = vm
         )
-    }) {
+    }, containerColor = MaterialTheme.colorScheme.primary) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -146,6 +148,10 @@ fun DetailScreen(
                     navController.navigate(AppScreens.Home.route)
                 },
                 shape = RoundedCornerShape(4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
@@ -176,38 +182,11 @@ fun DetailScreenTopAppBar(
                 color = MaterialTheme.colorScheme.onPrimary,
             )
         },
-        actions = {
-            CartIcon(onCartClick, vm)
-        },
+
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
         )
     )
 }
 
-@Composable
-fun CartIcon(onCartClick: () -> Unit, vm: GeneralStoreViewModel) {
-    val homeUiState by vm.generalStoreUiState.collectAsState()
-    Row(modifier = Modifier.clickable(onClick = onCartClick)) {
-        Icon(
-            imageVector = Icons.Default.ShoppingCart,
-            contentDescription = "Cart",
-            tint = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.size(30.dp)
-        )
-        Surface(
-            shape = RoundedCornerShape(15.dp),
-            color = Color.Red.copy(alpha = 0.7f),
-        ) {
-            Text(
-                text = homeUiState.item.totalCartItems.toString(),
-                modifier = Modifier.padding(2.dp),
-                style = TextStyle(
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                ),
-            )
-        }
-    }
-}
 

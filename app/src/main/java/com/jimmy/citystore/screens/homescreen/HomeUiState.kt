@@ -4,5 +4,6 @@ import com.jimmy.citystore.screens.homeScreen.Store
 
 data class HomeUiState(
     val stores: List<Store> = emptyList(),
-    val route: String = ""
+    val route: String = "",
+    val isNavigating:Boolean = false
 )
